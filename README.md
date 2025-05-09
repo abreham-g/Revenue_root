@@ -46,7 +46,7 @@ Some of the Resoures that we are using in this project are :
 - React js
 - python
 - postgresql
-- google sheet
+- google API
 - GCP
 - Keepa API
 
