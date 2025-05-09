@@ -49,6 +49,7 @@ Some of the Resoures that we are using in this project are :
 - google API
 - GCP
 - Keepa API
+- Docker Container
 
 
 <!-- GETTING STARTED -->
