@@ -45,6 +45,7 @@ Some of the Resoures that we are using in this project are :
 - node js
 - React js
 - python
+- vercel
 - postgresql
 - google API
 - GCP
