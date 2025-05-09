@@ -44,6 +44,8 @@ Some of the Resoures that we are using in this project are :
 
 - node js
 - React js
+- TypeScript
+- Vite
 - python
 - vercel
 - postgresql
