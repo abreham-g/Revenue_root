@@ -33,7 +33,7 @@
 
 ### About The Project
 
-funonthego, a Goods buyer company with headquarter in UK, it purchase different products from amazon different market place and sells to different countries 
+funonthego, a Goods buyer company with headquarter in UK, it purchase different products from different amazon  market place and sells to different countries 
 
 
 A list of commonly used resources that we find helpful are listed in the acknowledgements.
