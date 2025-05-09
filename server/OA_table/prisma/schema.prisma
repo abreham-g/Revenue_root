@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model SFS_REPORT {
+  id                   Int     @id
+  asin                 String
+  title                String
+  buy_box_price        Float
+  sales_rank_drops_30  Int
+  store_link_1         String
+  store_price_1        Float
+  store_profit_1       Float
+  store_roi_1          Float
+  store_link_2         String
+  store_price_2        Float
+  store_profit_2       Float
+  store_roi_2          Float
+  store_link_3         String
+  store_price_3        Float
+  store_profit_3       Float
+  store_roi_3          Float
+ 
+
+  @@map("SFS_REPORT")   // Maps to the correct table inside schema `SFS`
+}

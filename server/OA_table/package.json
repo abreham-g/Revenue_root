@@ -1,0 +1,32 @@
+{
+  "name": "oa_table",
+  "version": "1.0.0",
+  "description": "Online Arbitrage Data Service",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "postinstall": "npx prisma generate",
+    "prisma-migrate": "npx prisma migrate dev"
+  },
+  "keywords": [
+    "prisma",
+    "postgresql",
+    "neon",
+    "express",
+    "online-arbitrage"
+  ],
+  "author": "Your Name",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^6.5.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "prisma": "^6.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
