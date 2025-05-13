@@ -16,7 +16,7 @@ const allowedOrigins = [
     'http://localhost:5000/submit-asins',   // Local dev environment
     'http://localhost:5173',       // Another local dev port
     'https://revenu-analysis-report-448061736903.us-central1.run.app',
-    'hhttps://revenue-analysis-pxl0klnu5-abreham-gs-projects.vercel.app'
+    'https://revenue-analysis-pxl0klnu5-abreham-gs-projects.vercel.app'
 ];
 
 app.use(cors({
