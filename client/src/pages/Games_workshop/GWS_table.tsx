@@ -7,7 +7,7 @@ import $ from 'jquery';
 import DataTable from 'datatables.net';
 import 'datatables.net-dt/css/dataTables.dataTables.css';
 import 'datatables.net-responsive';
-import traveling_man from '@/assets/images/retailers/traveling man.webp';
+import traveling_man from '@/assets/images/retailers/traveling_man.webp';
 import wayland from '@/assets/images/retailers/wayland.png';
 import firestorm from '@/assets/images/retailers/Firestorm.png';
 import element_games from '@/assets/images/retailers/element-games.png';
@@ -31,15 +31,31 @@ interface Store {
     image?: string; // Optional if not all stores have an image
 }
 
+const storeDisplayNames: Record<string, string> = {
+    FIRESTORM_GAMES: "Firestorm Games",
+    WAYLAND_GAMES: "Wayland Games",
+    ELEMENT_GAMES: "Element Games",
+    GOBLIN_GAMES: "Goblin Games",
+    WARLORD_WORKSHOP: "Warlord Workshop",
+    MARIONVILLE_GAMES: "Marionville Games",
+    "4tk_links": "4tk Links",
+    HOBBY_WORKSHOP: "Hobby Workshop",
+    MAGIC_MADHOUSE: "Magic Madhouse",
+    MIGHTY_MEELE: "Mighty Meele",
+    TRAVELLING_MAN: "Travelling Man",
+    BEANIE_GAMES: "Beanie Games",
+    GAMES_WORKSHOP: "Games Workshop",
+  };
+  
+
 const Table = () => {
     const [expandedRows, setExpandedRows] = useState<number[]>([]);
     const [storeFilter, setStoreFilter] = useState('');
     const [showFilterModal, setShowFilterModal] = useState(false);
     const [quickFilterActive, setQuickFilterActive] = useState(false);
     const [columns, setColumns] = useState([
-        'ID', 'ASIN', 'Title','Image','Amazon Link','Weight(grams)','ROI %','Buybox(Current)','Product Cost',
-        'Best Price ($)','Profit','Sales Rank(Day drops)','FBA seller(LIVE)','Historic FBA sellers'
-        ,'FBA fees','Referal fee %','Saturation Score','Total Stock','Stores'
+        'ID', 'ASIN', 'Title','Image','Amazon Link','ROI %','Buybox(Current)','Product Cost',
+        'Best Price ($)','Profit','Timestamp','Stores'
     ]);
     const [columnVisibility, setColumnVisibility] = useState<boolean[]>(Array(columns.length).fill(true));
     const [productData, setProductData] = useState<any[]>([]);
@@ -56,17 +72,25 @@ const Table = () => {
     // 
     useEffect(() => {
         const fetchData = async () => {
-          try {
-            const response = await fetch('https://revenu-analysis-backend-448061736903.us-central1.run.app/gws/fetch');
-            const data = await response.json();
-            setProductData(data);  // Set the fetched data to state
-          } catch (error) {
-            console.error("Error fetching data:", error);
-          }
+            try {
+                const response = await fetch('http://localhost:5000/gws/fetch');
+                // const response = await fetch('http://localhost:8080/gws/fetch');
+    
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Backend error (${response.status}): ${errorText}`);
+                }
+    
+                const data = await response.json();
+                setProductData(data);
+            } catch (error) {
+                console.error("❌ Error fetching data:", error);
+            }
         };
     
-        fetchData();  // Trigger the fetch when the component mounts
-      }, []); 
+        fetchData();
+    }, []);
+    
 
     // 
 
@@ -78,7 +102,7 @@ const Table = () => {
             ordering: true,
             info: true,
             columnDefs: [
-              { orderable: false, targets: [3, 4, 17] }
+              { orderable: false, targets: [3, 4, 11] }
             ],
             scrollX: true
         });
@@ -103,7 +127,7 @@ const Table = () => {
     };
     const applyQuickFilters = () => {
         const table = $('#gamesWorkshopTable').DataTable();
-        const visibleColumns = [1, 2, 3, 6, 7, 9, 10,13, 14, 15, 17,18];
+        const visibleColumns = [1, 2, 3, 6, 7, 9, 10,11];
 
         if (!quickFilterActive) {
             columns.forEach((_: string, index: number) => {
@@ -206,12 +230,12 @@ const Table = () => {
                                 <tr key={product.ID} className="relative">
                                     <td className="p-4 border-r border-dashed bg-gray-50 rounded-l-lg">{product.ID}</td>
                                     <td className="p-4 border-r border-dashed bg-white">{product.ASIN}</td>
-                                    <td className="p-4 border-r border-dashed bg-gray-50">{product.Title}</td>
-                                    <td className="p-4 border-r border-dashed bg-white relative group ">
+                                    <td className="p-4 border-r border-dashed bg-white relative group min-w-[160px]">{product.Title}</td>
+                                    <td className="p-4 border-r border-dashed bg-white relative group min-w-[160px] ">
                                         <img
                                             src={product.Image}
                                             alt={product.Title}
-                                            className="w-8 h-12 rounded-md cursor-pointer"
+                                            className="w-32 h-24 rounded-md cursor-pointer" // significantly increased width and height
                                         />
                                         <div className="absolute hidden group-hover:block bg-white border border-gray-300 shadow-lg p-2 rounded-lg z-[9999] w-64 top-14 left-0">
                                             <img src={product.Image} alt={`${product.Title} Enlarged`} className="rounded-md" />
@@ -227,7 +251,6 @@ const Table = () => {
                                             <FaAmazon className="text-xl" />
                                         </a>
                                     </td>
-                                    <td className="p-4 border-r border-dashed bg-white">{product.Weight}g</td>
                                     <td className="p-4 border-r border-dashed bg-gray-50">
                                         <span className={`
                                             px-3 py-1 rounded-md
@@ -282,15 +305,15 @@ const Table = () => {
                                             ${product.Profit}
                                         </span>
                                     </td>
-                                    <td className={`p-4 border-r border-dashed bg-white ${product.SalesRank >= 20 ? 'text-green-500' : 'text-orange-500'}`}>
+                                    {/* <td className={`p-4 border-r border-dashed bg-white ${product.SalesRank >= 20 ? 'text-green-500' : 'text-orange-500'}`}>
                                         {product.SalesRank}
                                     </td>
                                     <td className="p-4 border-r border-dashed bg-gray-50">{product.FBA_seller}</td>
                                     <td className="p-4 border-r border-dashed bg-white">{product.Historic_FBA_sellers}</td>
                                     <td className="p-4 border-r border-dashed bg-gray-50">${product.FBA_fees}</td>
-                                    <td className="p-4 border-r border-dashed bg-white">{product.Referal_fee}%</td>
-                                    <td className="p-4 border-r border-dashed bg-gray-50">{product.Saturation_Score}</td>
-                                    <td className="p-4 border-r border-dashed bg-white text-center">
+                                    <td className="p-4 border-r border-dashed bg-white">{product.Referal_fee}%</td>*/}
+                                    <td className="p-4 border-r border-dashed bg-gray-50">{product.Timestamp}</td> 
+                                    {/* <td className="p-4 border-r border-dashed bg-white text-center">
                                         <div className="whitespace-nowrap">
                                             {product.Total_Stock > 5 ? (
                                                 <span className="bg-green-100 text-green-600 px-3 py-1 rounded-md">
@@ -306,7 +329,7 @@ const Table = () => {
                                                 </span>
                                             )}
                                         </div>
-                                    </td>
+                                    </td> */}
                                     
                                     
                                     {/* Toggle Button for Expand/Collapse */}
@@ -348,34 +371,34 @@ const Table = () => {
                                                                 rel="noopener noreferrer"
                                                                 className="block w-full h-full group"
                                                             >
-                                                                {store.name === "Travelling Man" ? (
-                                                                    <img src={traveling_man} alt="Travelling Man Logo" className="w-full h-full object-contain" />
-                                                                ) : store.name === "Firestorm Games" ? (
-                                                                    <img src={firestorm} alt="Firestorm Games Logo" className="w-full h-full object-contain" />
-                                                                ) : store.name === "Wayland Games" ? (
-                                                                    <img src={wayland} alt="Wayland Games Logo" className="w-full h-full object-contain" />
-                                                                ) : store.name === "Element Games" ? (
-                                                                    <img src={element_games} alt="Element Games Logo" className="w-full h-full object-contain" />
-                                                                ) : store.name === "Goblin Games" ? (
-                                                                    <img src={goblin_games} alt="Goblin Games Logo" className="w-full h-full object-contain" />
-                                                                ) : store.name === "Warlord Workshop" ? (
-                                                                    <img src={warlord_workshop} alt="Warlord Workshop Logo" className="w-full h-full object-contain" />
-                                                                ) : store.name === "Marionville Games" ? (
-                                                                    <img src={marionville_games} alt="Marionville Games Logo" className="w-full h-full object-contain" />
-                                                                ) : store.name === "4tk links" ? (
-                                                                    <img src={fourtk_links} alt="4tk Links Logo" className="w-full h-full object-contain" />
-                                                                ) : store.name === "Hobby Workshop" ? (
-                                                                    <img src={hobby_workshop} alt="Hobby Workshop Logo" className="w-full h-full object-contain" />
-                                                                ) : store.name === "Magic Madhouse" ? (
-                                                                    <img src={magic_madhouse} alt="Magic Madhouse Logo" className="w-full h-full object-contain" />
-                                                                ) : store.name === "Mighty Meele" ? (
-                                                                    <img src={mighty_meele} alt="Mighty Meele Logo" className="w-full h-full object-contain" />
-                                                                ) : store.name === "Beanie Games" ? (
-                                                                    <img src={beanie_games} alt="Beanie Games Logo" className="w-full h-full object-contain" />
-                                                                ) : store.name === "Games Workshop" ? (
-                                                                    <img src={games_workshop} alt="Games Workshop Logo" className="w-full h-full object-contain" />
-                                                                ):(
-                                                                    <FaLink className="text-xl text-blue-500 w-full h-full flex items-center justify-center" />
+                                                                {store.name === "TRAVELLING_MAN" ? (
+                                                                <img src={traveling_man} alt="Travelling Man Logo" className="w-full h-full object-contain" />
+                                                                ) : store.name === "FIRESTORM_GAMES" ? (
+                                                                <img src={firestorm} alt="Firestorm Games Logo" className="w-full h-full object-contain" />
+                                                                ) : store.name === "WAYLAND_GAMES" ? (
+                                                                <img src={wayland} alt="Wayland Games Logo" className="w-full h-full object-contain" />
+                                                                ) : store.name === "ELEMENT_GAMES" ? (
+                                                                <img src={element_games} alt="Element Games Logo" className="w-full h-full object-contain" />
+                                                                ) : store.name === "GOBLIN_GAMES" ? (
+                                                                <img src={goblin_games} alt="Goblin Games Logo" className="w-full h-full object-contain" />
+                                                                ) : store.name === "WARLORD_WORKSHOP" ? (
+                                                                <img src={warlord_workshop} alt="Warlord Workshop Logo" className="w-full h-full object-contain" />
+                                                                ) : store.name === "MARIONVILLE_GAMES" ? (
+                                                                <img src={marionville_games} alt="Marionville Games Logo" className="w-full h-full object-contain" />
+                                                                ) : store.name === "4tk_links" ? (
+                                                                <img src={fourtk_links} alt="4tk Links Logo" className="w-full h-full object-contain" />
+                                                                ) : store.name === "HOBBY_WORKSHOP" ? (
+                                                                <img src={hobby_workshop} alt="Hobby Workshop Logo" className="w-full h-full object-contain" />
+                                                                ) : store.name === "MAGIC_MADHOUSE" ? (
+                                                                <img src={magic_madhouse} alt="Magic Madhouse Logo" className="w-full h-full object-contain" />
+                                                                ) : store.name === "MIGHTY_MEELE" ? (
+                                                                <img src={mighty_meele} alt="Mighty Meele Logo" className="w-full h-full object-contain" />
+                                                                ) : store.name === "BEANIE_GAMES" ? (
+                                                                <img src={beanie_games} alt="Beanie Games Logo" className="w-full h-full object-contain" />
+                                                                ) : store.name === "GAMES_WORKSHOP" ? (
+                                                                <img src={games_workshop} alt="Games Workshop Logo" className="w-full h-full object-contain" />
+                                                                ) : (
+                                                                <FaLink className="text-xl text-blue-500 w-full h-full flex items-center justify-center" />
                                                                 )}
 
                                                                 {/* Improved Hover Effect with Expanded Space for Visibility */}
@@ -387,7 +410,7 @@ const Table = () => {
                                                                     marginTop: '5px' // Ensures spacing below the link div
                                                                 }}
                                                             >
-                                                                <p className="text-lg font-semibold">{store.name}</p>
+                                                                <p className="text-lg font-semibold">{storeDisplayNames[store.name] || store.name}</p>
                                                                 <img src={store.image} alt="Product Image" className="w-40 h-60 object-cover mx-auto my-2 rounded-md border" />
                                                                 <p className="text-sm text-gray-600">Price: ${store.price}</p>
                                                                 <p className={`text-sm ${store.stock > 0 ? 'text-green-500' : 'text-red-500'}`}>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, JSX } from 'react';
 import { Link } from 'react-router-dom';
 import { productData } from './old_data';
 import { FaAmazon, FaCartPlus, FaFilter, FaSearch } from 'react-icons/fa'; // Import FaSearch
@@ -10,7 +10,7 @@ import 'datatables.net-responsive';
 const Table = () => {
     const [showFilterModal, setShowFilterModal] = useState(false);
     const [quickFilterActive, setQuickFilterActive] = useState(false);
-    const [columns, setColumns] = useState([
+    const [columns, setColumns] = useState<string[]>([
         'ID', 'ASIN', 'Title', 'Amazon Image', 'Supplier Image' , 'Keepa Chart', 'Amazon', 'Supplier','Weight(grams)', 'Amazon Buy Box Price ($)', 'Sales Rank Drops', 'Historic FBA Sellers',
         'Referral fee %', 'Supplier cost ($)', 'profit ($)', 'ROI (%)', '#FBA Sellers Live', 'Saturation Score', 'FBA fees ($)', 'TOTAL STOCK'
     ]);
@@ -34,7 +34,7 @@ const Table = () => {
        
 
         // Hide/Show Columns based on checkbox state
-        columns.forEach((_, index) => {
+        columns.forEach((_: string, index: number) => {
             table.column(index).visible(true);
         });
 
@@ -48,8 +48,8 @@ const Table = () => {
         const column = table.column(columnIndex);
         column.visible(!column.visible());
         // Update state to reflect the change
-        setColumnVisibility((prev) =>
-            prev.map((isVisible, idx) => (idx === columnIndex ? !isVisible : isVisible))
+        setColumnVisibility((prev: boolean[]) =>
+            prev.map((isVisible: boolean, idx: number) => (idx === columnIndex ? !isVisible : isVisible))
         );
     };
     const applyQuickFilters = () => {
@@ -57,11 +57,11 @@ const Table = () => {
         const visibleColumns = [1, 2, 3, 6, 7, 9, 10,13, 14, 15, 19];
 
         if (!quickFilterActive) {
-            columns.forEach((_, index) => {
+            columns.forEach((_: string, index: number) => {
                 table.column(index).visible(visibleColumns.includes(index));
             });
         } else {
-            columns.forEach((_, index) => {
+            columns.forEach((_: string, index: number) => {
                 table.column(index).visible(true);
             });
         }
@@ -99,7 +99,7 @@ const Table = () => {
                 <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg w-96">
                         <h3 className="text-xl font-bold mb-4">Column Filters</h3>
-                        {columns.map((col, index) => (
+                        {columns.map((col: string, index: number) => (
                             <div key={col} className="flex items-center gap-2 mb-2">
                                 <input
                                     type="checkbox"

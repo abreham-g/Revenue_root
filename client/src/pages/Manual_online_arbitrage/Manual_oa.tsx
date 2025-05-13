@@ -19,6 +19,9 @@ const Table = () => {
     ]);
     const [columnVisibility, setColumnVisibility] = useState<boolean[]>(Array(columns.length).fill(true));
     const [originalColumnVisibility, setOriginalColumnVisibility] = useState<boolean[]>([...columnVisibility]);
+    const [asinInput, setAsinInput] = useState("");
+    const [keepaMarketplace, setKeepaMarketplace] = useState("");
+    const [googleMarketplace, setGoogleMarketplace] = useState("");
      
     interface MappedData {
         id: number;
@@ -85,6 +88,51 @@ const Table = () => {
         fetchData();
     }, []);
 
+    // Function to handle ASIN submission
+    const handleSubmitAsins = async () => {
+            if (!asinInput.trim()) {
+                alert("Please enter some ASINs");
+                return;
+            }
+            
+            if (!keepaMarketplace || !googleMarketplace) {
+                alert("Please select both marketplaces");
+                return;
+            }
+
+            const asinList = asinInput.split("\n").map(asin => asin.trim()).filter(Boolean);
+            
+            // Prepare payload as a single object
+            const payload = {
+                asins: asinList,
+                keepa_marketplace: keepaMarketplace,
+                google_marketplace: googleMarketplace,
+            };
+
+            console.log("Payload to submit:", payload);
+
+            try {
+                const response = await fetch('http://localhost:5000/api/submit-asins', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert("ASINs submitted successfully! Please wait until the report is generated and displayed below.");
+                    setAsinInput(""); // Clear input after submission
+                } else {
+                    alert("Failed to submit ASINs: " + result.message);
+                }
+            } catch (error) {
+                console.error('Error submitting ASINs:', error);
+                alert("Error submitting ASINs");
+            }
+        };
+
     const totalProducts = data.length;
 
     const averageRoi = totalProducts 
@@ -102,22 +150,26 @@ const Table = () => {
     ];
 
     useEffect(() => {
-        if (!loading) {
-            $('#automaticOaTable').DataTable({
-                paging: true,
-                searching: true,
-                ordering: true,
-                info: true,
-                responsive: true,
-                scrollX: true,
-                columnDefs: [{ orderable: false, targets: [3, 4, 10] }]
-            });
-        }
-    }, [data, loading]);
+            if (!loading && data.length > 0) {
+                const table = $('#automaticOaTable').DataTable();
+                table.destroy();
+
+                $('#automaticOaTable').DataTable({
+                    paging: true,
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    responsive: true,
+                    scrollX: true,
+                    columnDefs: [{ orderable: false, targets: [3, 4, 10] }]
+                });
+            }
+        }, [data, loading]);
+
 
     useEffect(() => {
         if (!loading) {
-            const table = $('#automaticOaTable').DataTable();
+            const table = $('#ManualcOaTable').DataTable();
             columnVisibility.forEach((isVisible, index) => {
                 table.column(index).visible(isVisible);
             });
@@ -146,8 +198,79 @@ const Table = () => {
         
         <div style={{ width: '85%', margin: '0 auto' }}>
             <div className="bg-gray-100 py-10 rounded-lg mb-6 text-center">
-            <h1 className="text-4xl font-bold text-gray-800">Welcome to the Online Arbitrage Data Page!</h1>
-            <p className="text-gray-500 mt-2">Here you can find products sourced from other storefronts.</p>
+            <h1 className="text-4xl font-bold text-gray-800">Manual Online Arbitrage Data Page!</h1>
+           
+            <div className="mt-6 text-left">
+              <label htmlFor="asinInput" className="block text-lg font-semibold text-gray-700 mb-2">
+                
+              </label>
+              <textarea
+                id="asinInput"
+                value={asinInput}
+                onChange={(e) => setAsinInput(e.target.value)}
+                placeholder="Enter Your ASINs here..."
+                className="w-full h-64 p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 resize-y"
+              />
+              {/* Dropdowns added here */}
+                <div className="mt-4 flex flex-col md:flex-row gap-4">
+                <div className="flex flex-col">
+                    <label htmlFor="marketplace" className="text-gray-700 font-medium mb-1">Keepa Marketplace</label>
+                    <select
+                    id="marketplace"
+                    value={keepaMarketplace}
+                    onChange={(e) => setKeepaMarketplace(e.target.value)}
+                    className="p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    >
+                    <option value="">Select a marketplace</option>
+                    <option value="1-com">1-com</option>
+                    <option value="2-co.uk">2-co.uk</option>
+                    <option value="3-de">3-de</option>
+                    <option value="4-fr">4-fr</option>
+                    <option value="5-co.jp">5-co.jp</option>
+                    <option value="6-ca">6-ca</option>
+                    <option value="8-it">8-it</option>
+                    <option value="9-es">9-es</option>
+                    <option value="10-in">10-in</option>
+                    </select>
+                </div>
+                </div>
+                    <div className="mt-4 flex flex-col md:flex-row gap-4">
+                        <div className="flex flex-col">
+                            <label htmlFor="marketplace" className="text-gray-700 font-medium mb-1">Google Marketplace</label>
+                            <select
+                            id="marketplace"
+                            value={googleMarketplace}
+                            onChange={(e) => setGoogleMarketplace(e.target.value)}
+                            className="p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            >
+                            <option value="">Select a marketplace</option>
+                            <option value="com">com</option>
+                            <option value="co.uk">co.uk</option>
+                            <option value="de">de</option>
+                            <option value="fr">fr</option>
+                            <option value="co.jp">co.jp</option>
+                            <option value="ca">ca</option>
+                            <option value="it">it</option>
+                            <option value="es">es</option>
+                            <option value="in">in</option>
+                            </select>
+                        </div>
+                        </div>
+
+              <div className="mt-4 flex gap-4">
+                <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                onClick={handleSubmitAsins} // Submit ASINs
+                >
+                  Submit ASINs
+                </button>
+                {/* <button className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition"
+                onClick={() => setAsinInput("")} // Clear input
+                >
+                  Clear Input
+                </button> */}
+              </div>
+            </div>
+      
             </div>
             
             {/* Stats Cards */}

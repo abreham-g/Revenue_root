@@ -62,13 +62,7 @@ async function fetchGWSData() {
         Stores: stores,
         BestPrice: Math.min(...stores.map(store => store.price)),
         Profit: parseFloat(row.Profit),
-        SalesRank: parseInt(row.FBA_Sellers_Live),
-        FBA_seller: parseFloat(row.FBA_Sellers_Live),
-        Historic_FBA_sellers: parseInt(row.Historic_FBA_sellers),
-        FBA_fees: parseFloat(row.FBA_fees),
-        Referral_fee: parseFloat(row.Referral_fee_percent),
-        Saturation_Score: parseFloat(row.Saturation_Score),
-        Total_Stock: parseInt(row.TOTAL_STOCK)
+        Timestamp: new Date(row.Timestamp)
 
       };
     });

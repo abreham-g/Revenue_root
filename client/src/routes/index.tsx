@@ -26,6 +26,7 @@ const HelpPage = React.lazy(() => import('../pages/other/Help'))
 const Dashboard = React.lazy(() => import('../pages/other/Dashboard'))
 const Setting = React.lazy(() => import('../pages/other/Setting'))
 const AutomaticOa_table = React.lazy(() => import('../pages/Online_arbitrage/index'))
+const Manual_oa =  React.lazy(() => import('../pages/Manual_online_arbitrage/index'))
 const GamesWorkshop = React.lazy(() => import('../pages/Games_workshop'))
 
 export interface RoutesProps {
@@ -54,6 +55,13 @@ const dashboardRoutes: RoutesProps[] = [
 		name: 'Home',
 		header: 'Navigation',
 		element: <AutomaticOa_table />,
+		route: Route,
+	},
+	{
+		path: '/Manual_oa',
+		name: 'Home',
+		header: 'Navigation',
+		element: <Manual_oa />,
 		route: Route,
 	},
 	{

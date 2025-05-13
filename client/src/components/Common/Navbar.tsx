@@ -238,10 +238,11 @@ const Navbar = () => {
 									<div className="nav-item dropdown">
 										<button
 											className={`nav-link flex items-center font-medium py-2 px-4 lg:py-0 ${
-												isActive('/pages/manual-oa') || isActive('/automatic_oa')
+												isActive('/Manual_oa') || isActive('/automatic_oa')
 													? 'text-primary font-bold'
 													: 'text-gray-700'
 											}`}
+
 											id="oaDropdown"
 											onClick={(e) => {
 												const dropdownMenu = e.currentTarget.nextElementSibling;
@@ -262,9 +263,9 @@ const Navbar = () => {
 											<li>
 												<Link
 													className={`dropdown-item block px-4 py-2 hover:bg-gray-100 ${
-														isActive('/pages/manual-oa') ? 'text-primary font-bold' : ''
+														isActive('/Manual_oa') ? 'text-primary font-bold' : ''
 													}`}
-													to="/pages/manual-oa"
+													to="/Manual_oa"
 												>
 													Manual OA
 												</Link>

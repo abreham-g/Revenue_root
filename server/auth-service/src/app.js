@@ -3,7 +3,8 @@ const session = require("express-session");
 const passport = require("passport");
 const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
-const gwsRoutes = require("./routes/gwsRoutes"); // ✅ fixed import
+const gwsRoutes = require("./routes/gwsRoutes");
+const manualoaRoutes = require("./routes/manualoa_Routes");
 require("./config/passport");
 
 const app = express();
@@ -11,7 +12,8 @@ const app = express();
 // CORS Configuration - Moved to the top
 const allowedOrigins = [
     'http://localhost:3000',  
-    'http://localhost:5000/gws/fetch',     // Local dev environment
+    'http://localhost:8083/gws/fetch',  
+    'http://localhost:5000/submit-asins',   // Local dev environment
     'http://localhost:5173',       // Another local dev port
     'https://revenu-analysis-report-448061736903.us-central1.run.app'
 ];
@@ -49,7 +51,12 @@ app.use(session({ secret: "secret", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Middleware to parse JSON body
+app.use(express.json());
+
+
 // Routes
+app.use("/api",manualoaRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/gws", gwsRoutes); // ✅ correct now
 
