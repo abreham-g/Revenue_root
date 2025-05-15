@@ -18,9 +18,13 @@ router.post('/submit-asins', async (req, res) => {
   if (!google_marketplace || typeof google_marketplace !== 'string') {
     return res.status(400).json({ success: false, message: 'Invalid Google marketplace provided' });
   }
+  const currency_factor = req.body.currency_factor;
+  if (typeof currency_factor !== 'number' || currency_factor <= 0) {
+    return res.status(400).json({ success: false, message: 'Invalid currency factor provided' });
+    }
 
   try {
-    const results = await runScrapingFlow(asins, keepa_marketplace,google_marketplace);
+    const results = await runScrapingFlow(asins, keepa_marketplace,google_marketplace,currency_factor);
     return res.json({ success: true, message: 'ASINs processed successfully', data: results });
   } catch (err) {
     console.error("❌ Error in processing ASINs:", err.message);
@@ -29,4 +33,6 @@ router.post('/submit-asins', async (req, res) => {
 });
 
 module.exports = router;
+
+
 

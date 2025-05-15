@@ -16,7 +16,7 @@ const allowedOrigins = [
     'http://localhost:5000/api/submit-asins',
     'https://revenue-root-1.onrender.com/api/submit-asins',
     'http://localhost:5173',       // Another local dev port
-    'https://revenue-analysis-32yi1ddi9-abreham-gs-projects.vercel.app'
+    'https://revenue-analysis-7r8au935z-abreham-gs-projects.vercel.app'
 ];
 
 app.use(cors({
