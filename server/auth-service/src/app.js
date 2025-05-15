@@ -13,10 +13,10 @@ const app = express();
 const allowedOrigins = [
     'http://localhost:3000',  
     'http://localhost:8083/gws/fetch',  
-    'http://localhost:5000/submit-asins',   // Local dev environment
+    'https://revenue-root-1.onrender.com/api/submit-asins',
     'http://localhost:5173',       // Another local dev port
     'https://revenu-analysis-report-448061736903.us-central1.run.app',
-    'https://revenue-analysis-pxl0klnu5-abreham-gs-projects.vercel.app'
+    'https://revenue-analysis-14t6x152b-abreham-gs-projects.vercel.app'
 ];
 
 app.use(cors({
