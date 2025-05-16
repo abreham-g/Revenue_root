@@ -104,7 +104,7 @@ const ProfileWidget = () => {
 						<div className="md:w-1/2 w-full">
 							<div className="flex justify-between mb-3">
 								<h6 className="fw-medium my-0">Total products</h6>
-								<p className="float-end mb-0">2369</p>
+								<p className="float-end mb-0">2863</p>
 							</div>
 							<div className="flex w-full h-1.5 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700 ">
 								<div
@@ -152,7 +152,7 @@ const TaskWidget = ({ count, icon }: TaskProps) => {
 				<div className="flex-grow-1">
 					<h3 className="text-xl text-gray-800">{count}</h3>
 					<p className="text-muted mb-0">
-						{count === 1271 ? 'Products Analysed' : 'Inprogress'}
+						{count === 2863 ? 'Products Analysed' : 'Inprogress'}
 					</p>
 				</div>
 			</div>

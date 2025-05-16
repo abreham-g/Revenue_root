@@ -75,8 +75,6 @@ const Table = () => {
             try {
                 // const response = await fetch('http://localhost:5000/gws/fetch');
                 const response = await fetch('https://revenue-root-1.onrender.com/gws/fetch');
-                // const response = await fetch('http://localhost:8080/gws/fetch');
-    
                 if (!response.ok) {
                     const errorText = await response.text();
                     throw new Error(`Backend error (${response.status}): ${errorText}`);

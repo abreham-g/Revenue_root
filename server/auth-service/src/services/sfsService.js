@@ -54,7 +54,7 @@ class KeepaScrape {
   }
 
   static getWeight(product) {
-    return product.packageWeight ? product.packageWeight / 100 : null;
+    return product.packageWeight ? product.packageWeight : null;
   }
 
   static fbaSellerCount(product) {
@@ -176,10 +176,10 @@ async function runScrapingFlow(asins, keepaMarketplace, googleMarketplace,curren
 
         if (itemCost && bbPrice && weight && referralFee && fbaFee) {
           // const profit = bbPrice - itemCost - 1.1 - (weight * 0.01) - ((referralFee / 100) * itemCost) - fbaFee;
-          const profit = bbPrice - (itemCost *1.1) - (weight * 0.01) - ((referralFee / 100) * itemCost)-fbaFee-0.7
-          const roi = (itemCost + profitFactor + (weight * 0.01)) !== 0
+          const profit = bbPrice - (itemCost *1.1) - (weight) - ((referralFee / 100) * itemCost)-fbaFee-0.7
+          const roi = (itemCost + profitFactor + (weight)) !== 0
             ? 
-            ((profit / ((itemCost *1.1) + (weight*0.01)+0.7)).toFixed(2))
+            ((profit / ((itemCost *1.1) + (weight)+0.7)).toFixed(2))
             // ((profit / (itemCost + profitFactor + (weight * 0.01))) * 100).toFixed(2)
             : 'N/A';
 

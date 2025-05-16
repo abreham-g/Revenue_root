@@ -47,22 +47,25 @@ const Table = () => {
   const [asinInput, setAsinInput] = useState("");
   const [keepaMarketplace, setKeepaMarketplace] = useState("");
   const [googleMarketplace, setGoogleMarketplace] = useState("");
+  const [currency, setCurrency] = useState("");
 
   const handleSubmitAsins = async () => {
     if (!asinInput.trim()) return alert("Please enter some ASINs");
     if (!keepaMarketplace || !googleMarketplace) return alert("Please select both marketplaces");
+    if (!currency) return alert("Please enter the recent currency factor");
 
     const asinList = asinInput.split("\n").map(asin => asin.trim()).filter(Boolean);
     const payload = {
       asins: asinList,
       keepa_marketplace: keepaMarketplace,
       google_marketplace: googleMarketplace,
+      currency_factor: parseFloat(currency),
     };
 
     try {
       setLoading(true);
-    //   const response = await fetch('http://localhost:5000/api/submit-asins',
-        const response = await fetch('https://revenue-root-1.onrender.com/api/submit-asins',
+      const response = await fetch('http://localhost:5000/api/submit-asins',
+        // const response = await fetch('https://revenue-root-1.onrender.com/api/submit-asins',
          {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -171,21 +174,37 @@ const Table = () => {
         <h1 className="text-4xl font-bold text-gray-800">Manual Online Arbitrage Data Page!</h1>
 
         <div className="mt-6 text-left">
-          <textarea
+            <textarea
             value={asinInput}
             onChange={(e) => setAsinInput(e.target.value)}
             placeholder="Enter Your ASINs here..."
             className="w-full h-64 p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 resize-y"
-          />
+            />
 
-          <div className="mt-4 flex flex-col md:flex-row gap-4">
+            {/* Currency Input Field */}    
+            <div className="mt-4">
+                <label htmlFor="currency" className="text-gray-700 font-medium mb-1 block">
+                    Currency
+                </label>
+                <input
+                    type="number" // ✅ change here
+                    id="currency"
+                    step="0.01"
+                    value={currency}
+                    onChange={(e) => setCurrency(e.target.value)}
+                    placeholder="e.g. 1.23"
+                    className="w-1/4 p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+            </div>
+
+            <div className="mt-4 flex flex-col md:flex-row gap-4">
             <div className="flex flex-col">
-              <label className="text-gray-700 font-medium mb-1">Keepa Marketplace</label>
-              <select
+                <label className="text-gray-700 font-medium mb-1">Keepa Marketplace</label>
+                <select
                 value={keepaMarketplace}
                 onChange={(e) => setKeepaMarketplace(e.target.value)}
                 className="p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-              >
+                >
                 <option value="">Select a marketplace</option>
                 <option value="1-com">1-com</option>
                 <option value="2-co.uk">2-co.uk</option>
@@ -196,16 +215,16 @@ const Table = () => {
                 <option value="8-it">8-it</option>
                 <option value="9-es">9-es</option>
                 <option value="10-in">10-in</option>
-              </select>
+                </select>
             </div>
 
             <div className="flex flex-col">
-              <label className="text-gray-700 font-medium mb-1">Google Marketplace</label>
-              <select
+                <label className="text-gray-700 font-medium mb-1">Google Marketplace</label>
+                <select
                 value={googleMarketplace}
                 onChange={(e) => setGoogleMarketplace(e.target.value)}
                 className="p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-              >
+                >
                 <option value="">Select a marketplace</option>
                 <option value="com">com</option>
                 <option value="co.uk">co.uk</option>
@@ -216,20 +235,20 @@ const Table = () => {
                 <option value="it">it</option>
                 <option value="es">es</option>
                 <option value="in">in</option>
-              </select>
+                </select>
             </div>
-          </div>
+            </div>
 
-          <div className="mt-4">
+            <div className="mt-4">
             <button
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-              onClick={handleSubmitAsins}
+                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                onClick={handleSubmitAsins}
             >
-              Submit ASINs
+                Submit ASINs
             </button>
-          </div>
+            </div>
         </div>
-      </div>
+        </div>
 
       {/* Stats */}
       <div className="flex justify-center gap-6 mb-12">
