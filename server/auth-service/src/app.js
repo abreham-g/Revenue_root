@@ -16,7 +16,7 @@ const allowedOrigins = [
     'http://localhost:5000/api/submit-asins',
     'https://revenue-root-1.onrender.com/api/submit-asins',
     'http://localhost:5173',       
-    'https://revenue-analysis-9jmy40rv6-abreham-gs-projects.vercel.app'
+    'https://revenue-analysis-9pl17ykc2-abreham-gs-projects.vercel.app'
 ];
 app.use(cors({
     origin: function (origin, callback) {
@@ -43,7 +43,7 @@ app.options("*", (req, res) => {
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
     res.header("Access-Control-Allow-Credentials", "true");
-    res.sendStatus(200);  // Send preflight response
+    res.sendStatus(200);  
 });
 
 // Session & Passport
