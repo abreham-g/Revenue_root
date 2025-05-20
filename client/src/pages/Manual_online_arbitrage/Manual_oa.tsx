@@ -64,8 +64,8 @@ const Table = () => {
 
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:5000/api/submit-asins',
-        // const response = await fetch('https://revenue-root-1.onrender.com/api/submit-asins',
+      // const response = await fetch('http://localhost:5000/api/submit-asins',
+        const response = await fetch('https://revenue-root-1.onrender.com/api/submit-asins',
          {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
