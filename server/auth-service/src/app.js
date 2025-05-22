@@ -5,6 +5,7 @@ const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
 const gwsRoutes = require("./routes/gwsRoutes");
 const manualoaRoutes = require("./routes/manualoa_Routes");
+const automaticoaRouts= require("./routes/automaticoa_Routes")
 require("./config/passport");
 
 const app = express();
@@ -12,11 +13,10 @@ const app = express();
 // CORS Configuration - Moved to the top
 const allowedOrigins = [
     'http://localhost:3000',  
-    'http://localhost:8083/gws/fetch',  
+    'http://localhost:5173',  
     'http://localhost:5000/api/submit-asins',
-    'https://revenue-root-1.onrender.com/api/submit-asins',
-    'http://localhost:5173',       
-    'https://revenue-analysis-9pl17ykc2-abreham-gs-projects.vercel.app'
+    'https://revenue-root-1.onrender.com/api/submit-asins',       
+    'https://revenue-analysis-b36kwxwus-abreham-gs-projects.vercel.app'
 ];
 app.use(cors({
     origin: function (origin, callback) {
@@ -58,6 +58,7 @@ app.use(express.json());
 // Routes
 app.use("/api",manualoaRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/gws", gwsRoutes); // ✅ correct now
+app.use("/gws", gwsRoutes); 
+app.use("/data",automaticoaRouts);
 
 module.exports = app;

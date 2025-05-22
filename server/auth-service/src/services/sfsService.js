@@ -197,9 +197,9 @@ async function runScrapingFlow(asins, keepaMarketplace, googleMarketplace,curren
 
   await Promise.all(oxylabsTasks);
 
-  const outputPath = path.join(__dirname, 'keepa_with_oxylabs_output.json');
-  fs.writeFileSync(outputPath, JSON.stringify(keepaResults, null, 2));
-  console.log(`✅ Output saved to ${outputPath}`);
+  // const outputPath = path.join(__dirname, 'keepa_with_oxylabs_output.json');
+  // fs.writeFileSync(outputPath, JSON.stringify(keepaResults, null, 2));
+  // console.log(`✅ Output saved to ${outputPath}`);
 
   return keepaResults;
 }
