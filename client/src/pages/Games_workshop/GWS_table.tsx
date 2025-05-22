@@ -55,8 +55,7 @@ const Table = () => {
     const [quickFilterActive, setQuickFilterActive] = useState(false);
     const [columns, setColumns] = useState([
         'ID', 'ASIN', 'Title','Image','Amazon Link','Weight(grams)','ROI %','Buybox(Current)','Product Cost',
-        'Best Price ($)','Profit','Sales Rank(Day drops)','FBA seller(LIVE)','Historic FBA sellers'
-        ,'FBA fees','Referal fee %','Saturation Score','Total Stock','Stores'
+        'Best Price ($)','Profit','Total Stock','Stores'
     ]);
     const [columnVisibility, setColumnVisibility] = useState<boolean[]>(Array(columns.length).fill(true));
     const [productData, setProductData] = useState<any[]>([]);
@@ -226,7 +225,7 @@ const Table = () => {
             info: true,
             pageLength: savedPageLength,
             columnDefs: [
-                { orderable: false, targets: [3, 4, 18] }
+                { orderable: false, targets: [3, 4, 12] }
             ],
             scrollX: true,
             stateSave: true,
@@ -347,7 +346,7 @@ const Table = () => {
         currentPageLengthRef.current = tableRef.current.page.len();
         currentPageRef.current = tableRef.current.page();
         
-        const visibleColumns = [1, 2, 3, 6, 7, 9, 10, 13, 14, 15, 17, 18];
+        const visibleColumns = [1, 2, 3, 6, 7, 9, 10, 12];
 
         if (!quickFilterActive) {
             columns.forEach((_: unknown, index: number) => {
@@ -517,14 +516,7 @@ const Table = () => {
                                         ${product.Profit}
                                     </span>
                                 </td>
-                                <td className={`p-4 border-r border-dashed bg-white ${product.SalesRank >= 20 ? 'text-green-500' : 'text-orange-500'}`}>
-                                    {product.SalesRank}
-                                </td>
-                                <td className="p-4 border-r border-dashed bg-gray-50">{product.FBA_seller}</td>
-                                <td className="p-4 border-r border-dashed bg-white">{product.Historic_FBA_sellers}</td>
-                                <td className="p-4 border-r border-dashed bg-gray-50">${product.FBA_fees}</td>
-                                <td className="p-4 border-r border-dashed bg-white">{product.Referal_fee}%</td>
-                                <td className="p-4 border-r border-dashed bg-gray-50">{product.Saturation_Score}</td>
+                                
                                 <td className="p-4 border-r border-dashed bg-white text-center">
                                     <div className="whitespace-nowrap">
                                         {product.Total_Stock > 5 ? (
