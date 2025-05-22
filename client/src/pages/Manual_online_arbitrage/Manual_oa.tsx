@@ -79,8 +79,9 @@ const Table = () => {
 
       result.data.forEach((item: APIItem) => {
         item.top_google_links.forEach((link: GoogleLink) => {
+          if (link.ROI !== "N/A") {
           const roi = parseFloat(link.ROI as string);
-          if (!isNaN(roi) && roi > 12) {
+          if (!isNaN(roi)) {
             filteredRows.push({
               asin: item.ASIN,
               title: item.TITLE,
@@ -92,6 +93,7 @@ const Table = () => {
               storeLink: link.url
             });
           }
+        }
         });
       });
 
