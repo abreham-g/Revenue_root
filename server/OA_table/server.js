@@ -14,7 +14,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-const allowedOrigins = ['https://revenue-roots.vercel.app', 'https://revenue-roots.onrender.com'];
+const allowedOrigins = ['https://revenue-roots.vercel.app', 'https://revenue-roots.onrender.com' , 'https://revenue-analysis-9jmy40rv6-abreham-gs-projects.vercel.app'];
 app.use(cors({
     origin: (origin, callback) => {
         if (!origin || allowedOrigins.includes(origin)) {
