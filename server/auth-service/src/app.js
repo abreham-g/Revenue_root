@@ -15,8 +15,9 @@ const allowedOrigins = [
     'http://localhost:3000',  
     'http://localhost:5173',  
     'http://localhost:5000/api/submit-asins',
+    'https://revenue-analysis.vercel.app',
     'https://revenue-root-1.onrender.com/api/submit-asins',       
-    'https://revenue-analysis-jbp31uuts-abreham-gs-projects.vercel.app'
+    'https://revenue-analysis-6fk14qjbe-abreham-gs-projects.vercel.app'
 ];
 app.use(cors({
     origin: function (origin, callback) {
