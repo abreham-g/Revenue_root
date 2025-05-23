@@ -15,7 +15,7 @@ const allowedOrigins = [
     'http://localhost:3000',  
     'http://localhost:5173',  
     'http://localhost:5000/api/submit-asins',
-    'https://revenue-analysis.vercel.app',
+    'https://revenue-roots-fcunodelo-revenue-rootes.vercel.app',
     'https://revenue-root-1.onrender.com/api/submit-asins',       
     'https://revenue-analysis-6fk14qjbe-abreham-gs-projects.vercel.app'
 ];
