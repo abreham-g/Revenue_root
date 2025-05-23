@@ -176,12 +176,18 @@ async function runScrapingFlow(asins, keepaMarketplace, googleMarketplace,curren
 
         if (itemCost && bbPrice && weight && referralFee && fbaFee) {
           // const profit = bbPrice - itemCost - 1.1 - (weight * 0.01) - ((referralFee / 100) * itemCost) - fbaFee;
-          const profit = bbPrice - (itemCost *1.1) - (weight) - ((referralFee / 100) * itemCost)-fbaFee-0.7
-          const roi = (itemCost + profitFactor + (weight)) !== 0
-            ? 
-            ((profit / ((itemCost *1.1) + (weight)+0.7)).toFixed(2))
-            // ((profit / (itemCost + profitFactor + (weight * 0.01))) * 100).toFixed(2)
-            : 'N/A';
+          // const profit = bbPrice - (itemCost *1.1) - (weight) - ((referralFee / 100) * itemCost)-fbaFee-0.7
+          // const roi = (itemCost + profitFactor + (weight)) !== 0
+          //   ? 
+          //   ((profit / ((itemCost *1.1) + (weight)+0.7)).toFixed(2))
+          //   // ((profit / (itemCost + profitFactor + (weight * 0.01))) * 100).toFixed(2)
+          //   : 'N/A';
+          const profit = buy_box_price - (store_price * 1.1) - (weight_in_kg * 0.01) - 
+               ((referral_fee_percentage / 100) * store_price) - fba_fee - 0.7;
+
+          const roi = ((store_price * 1.1) + (weight * 0.01) + 0.7) > 0 
+                      ? (profit / ((store_price * 1.1) + (weight * 0.01) + 0.7)) * 100 
+                      : 0;
 
           link.Profit = parseFloat(profit.toFixed(2));
           link.ROI = parseFloat(roi);
