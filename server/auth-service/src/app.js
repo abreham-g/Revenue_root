@@ -16,7 +16,7 @@ const allowedOrigins = [
     'http://localhost:5173',  
     'http://localhost:5000/api/submit-asins',
     'https://revenue-root-1.onrender.com/api/submit-asins',       
-    'https://revenue-analysis-5obd32s5y-abreham-gs-projects.vercel.app'
+    'https://revenue-analysis-jbp31uuts-abreham-gs-projects.vercel.app'
 ];
 app.use(cors({
     origin: function (origin, callback) {
@@ -37,7 +37,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// CORS Preflight Handling
 app.options("*", (req, res) => {
     res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -53,7 +52,6 @@ app.use(passport.session());
 
 // Middleware to parse JSON body
 app.use(express.json());
-
 
 // Routes
 app.use("/api",manualoaRoutes);
