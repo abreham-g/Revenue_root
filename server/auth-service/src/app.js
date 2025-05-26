@@ -18,6 +18,7 @@ const allowedOrigins = [
     'https://revenue-roots-abzptxkqf-revenue-rootes.vercel.app',
     'https://revenue-root-1.onrender.com/api/submit-asins',       
     'https://revenue-roots-rho.vercel.app'
+    // change applied
 ];
 app.use(cors({
     origin: function (origin, callback) {
