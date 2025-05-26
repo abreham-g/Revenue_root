@@ -12,14 +12,13 @@ const app = express();
 
 // CORS Configuration - Moved to the top
 const allowedOrigins = [
-    'http://localhost:3000',  
+    'http://localhost:3000',                                                            
     'http://localhost:5173',  
     'http://localhost:5000/api/submit-asins',
-    'https://revenue-roots-abzptxkqf-revenue-rootes.vercel.app',
+    'https://revenue-roots-4j51ewydv-revenue-rootes.vercel.app',
     'https://revenue-root-1.onrender.com/api/submit-asins',       
     'https://revenue-roots-rho.vercel.app'
-    // change applied
-];
+]; 
 app.use(cors({
     origin: function (origin, callback) {
         if (!origin || allowedOrigins.includes(origin)) {
